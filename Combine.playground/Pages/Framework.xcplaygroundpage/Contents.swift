@@ -33,6 +33,17 @@ publisher.map { (number)  in
 }.sink { (value) in
     print(value)
 }
+
+/*:
+ Nós também podemos fazer um sink somente quando a propagação for finalizada
+ */
+
+publisher.sink(receiveCompletion: { _ in
+    print("Evento finalizado")
+}) { value in
+    print(value)
+}
+
 /*:
  # Personalizando nosso próprio Publisher
  */
