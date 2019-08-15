@@ -3,8 +3,10 @@
     <pages>
         <page name='Reatividade'/>
         <page name='Framework'/>
+        <page name='Subjects'/>
         <page name='Operadores'/>
         <page name='Problemas do Cotidiano'/>
-        <page name='Subjects'/>
+        <page name='Exercícios'/>
+        <page name='Referencia'/>
     </pages>
 </playground>

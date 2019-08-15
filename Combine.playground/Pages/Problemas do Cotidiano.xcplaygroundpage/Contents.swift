@@ -26,7 +26,56 @@ URLSession.shared.dataTaskPublisher(for: URL(string: url)!).map { $0.data }.deco
 
 
 
+let baseUrl = "https://jsonplaceholder.typicode.com/posts"
 
+
+struct Post: Decodable {
+    var userId: Int?
+    var id: Int?
+    var title: String?
+    var body: String?
+}
+
+URLSession.shared.dataTaskPublisher(for: URL(string: baseUrl)!).map{$0.data}.decode(type: [Post].self, decoder: JSONDecoder()).map({post in
+    print(post)
+})
+
+
+class Service {
+    class func getAllPosts(completion: @escaping ([Post]) -> ()) {
+        
+        guard let url = URL(string: baseUrl) else {return}
+        
+        URLSession.shared.dataTask(with: url) { (data, response, err) in
+            let posts = try! JSONDecoder().decode([Post].self, from: data!)
+            DispatchQueue.main.async {
+                completion(posts)
+            }
+        }.resume()
+        
+    }
+}
+
+let posts = Service.getAllPosts { (posts) in
+    print(posts)
+}
+
+/*:
+ Tratamento de erro com Enum, vimos que publisher pode retornar erros que podem ser tratados com operadores funcionais como o flatMap por exemplo, porém podemos tratá-los com enums
+ */
+
+
+enum Error: Swift.Error {
+    case somethingWentWrong
+}
+
+let subject = PassthroughSubject<Void, Error>()
+
+subject.sink(receiveCompletion: { _ in
+    print("Completado")
+}) { (value) in
+    print(value)
+}
 
 //: [Next](@next)
 

@@ -63,7 +63,9 @@ final class UIControlSubscription<SubscriberType: Subscriber, Control: UIControl
         control.addTarget(self, action: #selector(eventHandler), for: event)
     }
     
-    func request(_ demand: Subscribers.Demand) {}
+    func request(_ demand: Subscribers.Demand) {
+        
+    }
     
     func cancel() {
         subscriber = nil
@@ -90,6 +92,7 @@ class UIControlPublisher<Control: UIControl>: Publisher {
     
     func receive<S>(subscriber: S) where S : Subscriber, UIControlPublisher.Failure == S.Failure, UIControlPublisher.Output == S.Input {
         let subscription = UIControlSubscription(subscriber: subscriber, control: control, event: controlEvents)
+        subscription.request(.unlimited)
         subscriber.receive(subscription: subscription)
     }
 }
