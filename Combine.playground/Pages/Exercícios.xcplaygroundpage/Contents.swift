@@ -27,7 +27,6 @@ let anotherSubscriber = publisher.handleEvents(receiveSubscription: {subscriptio
         print(value)
     })
 
-
 publisher.send(28)
 publisher.send(10)
 publisher.send(30)
